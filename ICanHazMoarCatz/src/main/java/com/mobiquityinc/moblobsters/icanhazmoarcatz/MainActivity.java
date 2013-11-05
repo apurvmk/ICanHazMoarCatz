@@ -3,6 +3,7 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +36,9 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, DribbleDownloadService.class);
+        startService(intent);
 
         gridView = (GridView) findViewById(R.id.cat_gv_cats);
         fragment_container = (RelativeLayout)findViewById(R.id.fragment_container);
