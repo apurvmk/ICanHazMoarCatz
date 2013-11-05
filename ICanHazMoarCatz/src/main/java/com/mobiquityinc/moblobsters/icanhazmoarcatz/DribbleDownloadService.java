@@ -81,6 +81,8 @@ public class DribbleDownloadService extends IntentService{
                     cv.put("total", jsonObject.getString("total"));
 
                     JSONArray ja = jsonObject.getJSONArray("shots");
+                
+
                     cv.put("image_url", ja.getString(5));
                     cv.put("image_url_teaser", ja.getString(6));
 
