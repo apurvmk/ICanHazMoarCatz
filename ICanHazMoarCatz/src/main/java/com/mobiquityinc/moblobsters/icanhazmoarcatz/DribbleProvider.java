@@ -1,12 +1,14 @@
 package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import java.net.URI;
 
@@ -23,8 +25,8 @@ public class DribbleProvider extends ContentProvider {
 
     private static final UriMatcher mMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        mMatcher.addURI(AUTHORITY, "dribble", dribbleDir);
-        mMatcher.addURI(AUTHORITY,"dribble/#", dribbleItem);
+        mMatcher.addURI(AUTHORITY, "dribble_db", dribbleDir);
+        mMatcher.addURI(AUTHORITY,"dribble_db/#", dribbleItem);
     }
 
     @Override
@@ -59,41 +61,31 @@ public class DribbleProvider extends ContentProvider {
 
         long id;
         SQLiteDatabase db =  dataBase.getWritableDatabase();
-        int type = mMatcher.match(uri);
-        switch (type){
-            case dribbleItem:
-            {
-                id = db.insert(DribbleContract.Dribble.DATABASE_NAME,null,contentValues);
-                break;
-            }
-
-            default:
-            {
-                throw new IllegalArgumentException("error on insert");
-            }
-        }
-
+        id = db.insert(DribbleContract.Dribble.TABLE_NAME,null,contentValues);
         getContext().getContentResolver().notifyChange(uri,null);
-        return Uri.parse(DribbleContract.Dribble.DATABASE_NAME+"/"+id);
+        Log.i("PRA","inserted id: "+id);
+
+        return ContentUris.withAppendedId(DribbleContract.Dribble.CONTENT_URI,id);
 
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
-//        SQLiteDatabase db =  dataBase.getReadableDatabase();
-//        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-//        builder.setTables(DribbleContract.Dribble.DATABASE_NAME);
-//        builder.setProjectionMap(DribbleContract.Dribble.mProjectionMap);
-//
-//        switch (mMatcher.match(uri)){
-//            case dribbleItem:
-//            {
-//                builder.appendWhere();
-//            }
-//        }
+        SQLiteDatabase db =  dataBase.getReadableDatabase();
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(DribbleContract.Dribble.TABLE_NAME);
+        builder.setProjectionMap(DribbleContract.Dribble.mProjectionMap);
 
-        return null;
+        switch (mMatcher.match(uri)){
+            case dribbleItem:
+            {
+                builder.appendWhere(String.format(DribbleContract.Dribble._ID + " %s", uri.getLastPathSegment()));
+                break;
+            }
+        }
+        return builder.query(db,projection,selection,selectionArgs,null,null,sortOrder);
+
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -90,12 +91,18 @@ public class DribbleDownloadService extends IntentService{
 
                         JSONObject obj = ja.getJSONObject(i);
                         ContentValues imageCv = new ContentValues();
-                        imageCv.put("image_id", obj.getString("id"));
-                        imageCv.put("image_title", obj.getString("title"));
-                        imageCv.put("image_url", obj.getString("image_url"));
-                        imageCv.put("image_teaser_url", obj.getString("image_teaser_url"));
-                        getContentResolver().insert(Uri.parse("CONTRACT HERE"), imageCv);
 
+                        imageCv.put(DribbleContract.Dribble.DRIBBLE_TITLE, obj.getString("title"));
+                        imageCv.put(DribbleContract.Dribble.DRIBBLE_URL, obj.getString("image_url"));
+                        imageCv.put(DribbleContract.Dribble.DRIBBLE_TEASER, obj.getString("image_teaser_url"));
+                        Uri uri =getContentResolver().insert(DribbleContract.Dribble.CONTENT_URI, imageCv);
+                        Cursor cursor= getContentResolver().query(uri, null, null, null, null);
+                        cursor.moveToFirst();
+                        while(!cursor.isAfterLast()){
+                            Log.i("PRA  Query Returned",cursor.getString(cursor.getColumnIndex(DribbleContract.Dribble._ID)));
+                            cursor.moveToNext();
+                        }
+                        cursor.close();
                         /*
                         Log.e(TAG, "==========");
                         Log.e(TAG, "Id: " + obj.getString("id"));
