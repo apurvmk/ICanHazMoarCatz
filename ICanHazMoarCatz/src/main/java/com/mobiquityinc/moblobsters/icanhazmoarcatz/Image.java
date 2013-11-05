@@ -8,22 +8,22 @@ import android.graphics.Bitmap;
 public class Image
 {
 
-    String url;
+    String imageUrl;
     String imageId;
-    String srcUrl;
+    String imageTeasureUrl;
 
     public Image(String url, String imageId, String srcUrl) {
-        this.url = url;
+        this.imageUrl = url;
         this.imageId = imageId;
-        this.srcUrl = srcUrl;
+        this.imageTeasureUrl = srcUrl;
     }
 
     public String getUrl() {
-        return url;
+        return imageUrl;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.imageUrl = url;
     }
 
     public String getImageId() {
@@ -35,10 +35,10 @@ public class Image
     }
 
     public String getSrcUrl() {
-        return srcUrl;
+        return imageTeasureUrl;
     }
 
     public void setSrcUrl(String srcUrl) {
-        this.srcUrl = srcUrl;
+        this.imageTeasureUrl = srcUrl;
     }
 }
