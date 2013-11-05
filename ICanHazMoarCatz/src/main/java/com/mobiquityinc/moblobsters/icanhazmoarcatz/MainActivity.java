@@ -2,6 +2,7 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,6 +51,9 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
 
         if(!isShowingFullScreen){
             loadMoreCats();
+            //ContentUris.withAppendedId(DribbleContract.Dribble.CONTENT_URI, id)
+            //getContentResolver().query(DribbleContract.Dribble.CONTENT_URI,)
+
         }
     }
 
