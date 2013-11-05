@@ -3,6 +3,9 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,17 +28,23 @@ import java.util.List;
  */
 public class DribbleDownloadService extends IntentService{
 
-    private DribbleDownloadService(){
+    public DribbleDownloadService(){
         super("DribbleDownloadService");
     }
 
+    private final String TAG = "TAVON";
     private JSONObject jsonObject;
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        return super.onStartCommand(intent,flags,startId);
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        int len = 500;
-        InputStream is = null;
+        InputStream is;
 
         try {
             URL url = new URL("http://api.dribbble.com/shots/everyone");
@@ -73,21 +82,33 @@ public class DribbleDownloadService extends IntentService{
 
             if(jsonObject != null){
 
-                ContentValues cv = new ContentValues();
+                //Log.e("TAVON", jsonObject.toString());
+
                 try {
-                    cv.put("page", jsonObject.getString("page"));
-                    cv.put("pages", jsonObject.getString("pages"));
-                    cv.put("per_page", jsonObject.getString("per_page"));
-                    cv.put("total", jsonObject.getString("total"));
-
                     JSONArray ja = jsonObject.getJSONArray("shots");
-                    cv.put("image_url", ja.getString(5));
-                    cv.put("image_url_teaser", ja.getString(6));
+                    for(int i = 0; i < Integer.parseInt(jsonObject.getString("per_page")); i++){
 
+                        JSONObject obj = ja.getJSONObject(i);
+                        ContentValues imageCv = new ContentValues();
+                        imageCv.put("image_id", obj.getString("id"));
+                        imageCv.put("image_title", obj.getString("title"));
+                        imageCv.put("image_url", obj.getString("image_url"));
+                        imageCv.put("image_teaser_url", obj.getString("image_teaser_url"));
+                        getContentResolver().insert(Uri.parse("CONTRACT HERE"), imageCv);
 
+                        /*
+                        Log.e(TAG, "==========");
+                        Log.e(TAG, "Id: " + obj.getString("id"));
+                        Log.e(TAG, "Title: " + obj.getString("title"));
+                        Log.e(TAG, "Url: " + obj.getString("image_url"));
+                        Log.e(TAG, "Tease Url: " + obj.getString("image_teaser_url") + "\n\n");
+                        */
+
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
 
 
             }
