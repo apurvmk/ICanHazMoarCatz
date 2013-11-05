@@ -3,16 +3,14 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.mobiquityinc.moblobsters.moblobsters.icanhazmoarcatz.R;
 
 /**
  * Created by tgatling on 11/4/13.
@@ -21,7 +19,6 @@ public class ImageFragment extends Fragment {
 
     private final static String IMAGE_URL  = "image_url";
     ImageView catImage;
-    Bitmap catBitmap;
 
     public static ImageFragment newInstance(String url){
 
