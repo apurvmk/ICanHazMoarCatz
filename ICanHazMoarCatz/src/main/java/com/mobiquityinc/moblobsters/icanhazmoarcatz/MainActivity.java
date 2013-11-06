@@ -78,6 +78,8 @@ public class MainActivity extends Activity{
             }
         });
 
+        cursor.close();
+
     }
 
     @Override
