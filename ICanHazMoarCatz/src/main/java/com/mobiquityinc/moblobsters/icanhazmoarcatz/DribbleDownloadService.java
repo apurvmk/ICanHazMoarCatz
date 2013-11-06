@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ import java.util.List;
  */
 public class DribbleDownloadService extends IntentService{
 
+    int pageIndex = 0;
+
     public DribbleDownloadService(){
         super("DribbleDownloadService");
     }
@@ -58,10 +61,18 @@ public class DribbleDownloadService extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        pageIndex = GlobalData.getDribblePageIndex();
+        pageIndex++;
+        GlobalData.setDribblePageIndex(pageIndex);
+        if(pageIndex>=49){
+            GlobalData.setDribblePageIndex(0);
+        }
+
+        Log.i("PRA","loading page: "+pageIndex);
         InputStream is;
 
         try {
-            URL url = new URL("http://api.dribbble.com/shots/everyone");
+            URL url = new URL("http://api.dribbble.com/shots/everyone/?page="+pageIndex);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);

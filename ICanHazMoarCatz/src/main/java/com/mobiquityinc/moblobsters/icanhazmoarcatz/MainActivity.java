@@ -5,8 +5,10 @@ import android.app.FragmentTransaction;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +34,10 @@ import java.util.logging.Handler;
 public class MainActivity extends Activity{
 
     private final String TAG = "MobiDribbble || " + getClass().getSimpleName();
+    private static String PAGE_INDEX = "page_index";
     private static String FULL_SCREEN = "full_screen";
+    SharedPreferences myPreferences;
+    SharedPreferences.Editor  myPreferencesEditor;
     RelativeLayout fragment_container;
     GridView gridView;
     ImageAdapter imgAdapter;
@@ -43,6 +48,13 @@ public class MainActivity extends Activity{
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        myPreferencesEditor = myPreferences.edit();
+
+        if(myPreferences.getInt(PAGE_INDEX,0)!=0){
+            GlobalData.setDribblePageIndex(myPreferences.getInt(PAGE_INDEX,0));
+        }
 
         Intent intent = new Intent(this, DribbleDownloadService.class);
         startService(intent);
@@ -71,6 +83,12 @@ public class MainActivity extends Activity{
     protected void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myPreferencesEditor.putInt(PAGE_INDEX,GlobalData.getDribblePageIndex()).commit();
     }
 
     @Subscribe
