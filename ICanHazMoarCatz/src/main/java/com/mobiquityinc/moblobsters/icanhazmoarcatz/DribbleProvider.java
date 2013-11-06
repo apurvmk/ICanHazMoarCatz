@@ -25,8 +25,8 @@ public class DribbleProvider extends ContentProvider {
 
     private static final UriMatcher mMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        mMatcher.addURI(AUTHORITY, "dribble_db", dribbleDir);
-        mMatcher.addURI(AUTHORITY,"dribble_db/#", dribbleItem);
+        mMatcher.addURI(AUTHORITY, "dribble", dribbleDir);
+        mMatcher.addURI(AUTHORITY,"dribble/#", dribbleItem);
     }
 
     @Override

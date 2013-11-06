@@ -35,7 +35,6 @@ public class DribbleDataBase extends SQLiteOpenHelper {
 //            + URI_LARGE + " text not null, "
 //            + DRIBBLE_TITLE + " text not null " + ");";
 
-
     public DribbleDataBase(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
