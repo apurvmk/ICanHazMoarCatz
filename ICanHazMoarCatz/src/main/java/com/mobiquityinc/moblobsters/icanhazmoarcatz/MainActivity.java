@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +23,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
 import java.util.List;
+import java.util.logging.Handler;
 
 public class MainActivity extends Activity{
 
@@ -50,26 +55,37 @@ public class MainActivity extends Activity{
         }
 
         final Cursor cursor = getContentResolver().query(DribbleContract.Dribble.CONTENT_URI, null, null, null, null);
-
-
-        /*
-        // Tests to see all the column names
-        String colNames = "";
-        for(String name : cursor.getColumnNames())
-            colNames = colNames + " | " + name;
-        Log.d(TAG, colNames);
-        */
-        if(cursor.moveToFirst()){
-        imgAdapter = new ImageAdapter(
-                this,
-                cursor,
-                false);
+        if(cursor.getCount()>1){
+            showTheList(cursor);
         }
-        else
-            Toast.makeText(this, "Sorry, cursor was null", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onListReady(EventListReady eventListReady){
+        if(eventListReady.isListReady){
+            final Cursor cursor = getContentResolver().query(DribbleContract.Dribble.CONTENT_URI, null, null, null, null);
+            showTheList(cursor);
+        }
+    }
+
+    public void showTheList(final Cursor cursor){
+
+        imgAdapter = new ImageAdapter(this,cursor,false);
 
         gridView.setAdapter(imgAdapter);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,7 +93,6 @@ public class MainActivity extends Activity{
                 showFullScreenCat(cursor.getString(cursor.getColumnIndex(DribbleContract.Dribble.DRIBBLE_URL)));
             }
         });
-
     }
 
     @Override
@@ -117,6 +132,4 @@ public class MainActivity extends Activity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
