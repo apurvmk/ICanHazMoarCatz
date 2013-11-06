@@ -7,7 +7,7 @@
         android:id="@+id/cat_gv_cats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="4"
+        android:numColumns="6"
         android:verticalSpacing="4dp"
         android:horizontalSpacing="4dp"
         android:gravity="center" />
