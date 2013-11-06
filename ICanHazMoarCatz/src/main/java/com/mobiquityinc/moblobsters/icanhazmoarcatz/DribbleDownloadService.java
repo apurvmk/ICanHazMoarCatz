@@ -5,8 +5,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.squareup.otto.Bus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,12 +38,20 @@ public class DribbleDownloadService extends IntentService{
         super("DribbleDownloadService");
     }
 
+    private Handler handler = new Handler(Looper.getMainLooper()){
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            BusProvider.getInstance().post(new EventListReady(true));
+        }
+    };
+
     private final String TAG = "TAVON";
     private JSONObject jsonObject;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         return super.onStartCommand(intent,flags,startId);
     }
 
@@ -69,9 +82,7 @@ public class DribbleDownloadService extends IntentService{
                 sb.append(line);
             }
 
-            //jsonObject = (JSONObject) new SimpleXmlPullApp().main(sb.toString());
             jsonObject = new JSONObject(sb.toString());
-
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -82,8 +93,6 @@ public class DribbleDownloadService extends IntentService{
         finally {
 
             if(jsonObject != null){
-
-                //Log.e("TAVON", jsonObject.toString());
 
                 try {
                     JSONArray ja = jsonObject.getJSONArray("shots");
@@ -99,29 +108,16 @@ public class DribbleDownloadService extends IntentService{
                         Cursor cursor= getContentResolver().query(uri, null, null, null, null);
                         cursor.moveToFirst();
                         while(!cursor.isAfterLast()){
-                            Log.i("PRA  Query Returned",cursor.getString(cursor.getColumnIndex(DribbleContract.Dribble._ID)));
                             cursor.moveToNext();
                         }
                         cursor.close();
-                        /*
-                        Log.e(TAG, "==========");
-                        Log.e(TAG, "Id: " + obj.getString("id"));
-                        Log.e(TAG, "Title: " + obj.getString("title"));
-                        Log.e(TAG, "Url: " + obj.getString("image_url"));
-                        Log.e(TAG, "Tease Url: " + obj.getString("image_teaser_url") + "\n\n");
-                        */
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-
             }
-
-
         }
-
+        handler.sendEmptyMessage(0);
     }
 }
