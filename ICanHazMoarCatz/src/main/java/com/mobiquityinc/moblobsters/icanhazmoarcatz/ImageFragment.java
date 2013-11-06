@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 
 /**
  * Created by tgatling on 11/4/13.
@@ -40,6 +42,7 @@ public class ImageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.cat_fullscreen_image, container, false);
         catImage = (ImageView) view.findViewById(R.id.cat_image_view);
+        view.setOnClickListener(null);
 
         return view;
     }
@@ -48,8 +51,9 @@ public class ImageFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        com.mobiquityinc.moblobsters.icanhazmoarcatz.BitmapDownLoader download = new BitmapDownLoader(catImage);
-        download.execute(getArguments().getString(IMAGE_URL));
+        Picasso.with(getActivity()).load(getArguments().getString(IMAGE_URL)).into(catImage);
+
+
 
     }
 }
