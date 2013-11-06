@@ -52,14 +52,14 @@ public class ImageAdapter extends CursorAdapter {
             imageHolder = (ImageHolder) convertView.getTag();
         }
 
-        Picasso.with(context).load("http://cdn.meme.li/i/pg2lr.jpg").into(imageHolder.catIV);
+        //Picasso.with(context).load("http://cdn.meme.li/i/pg2lr.jpg").into(imageHolder.catIV);
 
-        /*
+
         if(cursor.moveToPosition(position)){
-            //Picasso.with(context).load(cursor.getString(INDEX_OF_COLUMN_WITH_IMG_URL)).into(imageHolder.catIV);
-            Picasso.with(context).load("http://cdn.meme.li/i/pg2lr.jpg").into(imageHolder.catIV);
+            Picasso.with(context).load(cursor.getColumnIndex(DribbleContract.Dribble.DRIBBLE_URL)).into(imageHolder.catIV);
+            //Picasso.with(context).load("http://cdn.meme.li/i/pg2lr.jpg").into(imageHolder.catIV);
         }
-        */
+
 
         return convertView;
     }
@@ -76,6 +76,6 @@ public class ImageAdapter extends CursorAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return cursor.getCount();
     }
 }

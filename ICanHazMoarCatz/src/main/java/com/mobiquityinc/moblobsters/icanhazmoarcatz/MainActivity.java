@@ -48,15 +48,17 @@ public class MainActivity extends Activity{
 
         imgAdapter = new ImageAdapter(
                 this,
-                null, // Put actual cursor here
+                getContentResolver().query(DribbleContract.Dribble.CONTENT_URI, null, null, null, null), // Put actual cursor here
                 false);
         gridView.setAdapter(imgAdapter);
+        /*
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showFullScreenCat("http://cdn.meme.li/i/pg2lr.jpg");
             }
         });
+        */
     }
 
     @Override

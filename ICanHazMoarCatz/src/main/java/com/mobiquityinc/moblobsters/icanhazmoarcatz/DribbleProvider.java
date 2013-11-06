@@ -80,7 +80,7 @@ public class DribbleProvider extends ContentProvider {
         switch (mMatcher.match(uri)){
             case dribbleItem:
             {
-                builder.appendWhere(String.format(DribbleContract.Dribble._ID + " %s", uri.getLastPathSegment()));
+                builder.appendWhere(String.format(DribbleContract.Dribble._ID + " = %s", uri.getLastPathSegment()));
                 break;
             }
         }

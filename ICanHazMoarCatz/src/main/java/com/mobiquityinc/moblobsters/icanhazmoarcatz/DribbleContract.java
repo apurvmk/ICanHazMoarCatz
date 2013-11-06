@@ -26,7 +26,6 @@ public class DribbleContract {
         public static final HashMap<String,String> mProjectionMap = new HashMap<String, String>();
         static{
             mProjectionMap.put(_ID,_ID);
-            mProjectionMap.put(DRIBBLE_ID,DRIBBLE_ID);
             mProjectionMap.put(DRIBBLE_TITLE,DRIBBLE_TITLE);
 
         }
