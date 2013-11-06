@@ -29,7 +29,9 @@
         <service
             android:name=".DribbleDownloadService"
             android:exported="false"/>
-
+        <provider
+            android:authorities="com.mobiquityinc.moblobsters.icanhazmoarcatz.DribbleProvider"
+            android:name=".DribbleProvider"/>
     </application>
 
 </manifest>
