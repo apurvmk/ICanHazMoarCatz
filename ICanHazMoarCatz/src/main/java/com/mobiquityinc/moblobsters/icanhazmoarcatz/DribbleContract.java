@@ -2,7 +2,6 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
-
 import java.net.URI;
 import java.util.HashMap;
 
@@ -27,13 +26,10 @@ public class DribbleContract {
         public static final HashMap<String,String> mProjectionMap = new HashMap<String, String>();
         static{
             mProjectionMap.put(_ID,_ID);
+            mProjectionMap.put(DRIBBLE_ID,DRIBBLE_ID);
             mProjectionMap.put(DRIBBLE_TITLE,DRIBBLE_TITLE);
-            //need more here later
+
         }
-
-
-
     }
-
 
 }

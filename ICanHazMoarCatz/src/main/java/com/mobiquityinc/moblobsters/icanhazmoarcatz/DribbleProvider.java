@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
-
 import java.net.URI;
 
 /**
@@ -25,8 +24,8 @@ public class DribbleProvider extends ContentProvider {
 
     private static final UriMatcher mMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        mMatcher.addURI(AUTHORITY, "dribble_db", dribbleDir);
-        mMatcher.addURI(AUTHORITY,"dribble_db/#", dribbleItem);
+        mMatcher.addURI(AUTHORITY, "dribble", dribbleDir);
+        mMatcher.addURI(AUTHORITY,"dribble/#", dribbleItem);
     }
 
     @Override

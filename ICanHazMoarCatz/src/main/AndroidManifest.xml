@@ -26,9 +26,12 @@
             </intent-filter>
         </activity>
 
+<<<<<<< HEAD
         <service
             android:name=".DribbleDownloadService"
             android:exported="false"/>
+=======
+>>>>>>> 3f74a83064f60d1e3698c1806968fbae23f52ee7
         <provider
             android:authorities="com.mobiquityinc.moblobsters.icanhazmoarcatz.DribbleProvider"
             android:name=".DribbleProvider"/>
