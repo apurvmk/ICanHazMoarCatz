@@ -95,7 +95,7 @@ public class DribbleDownloadService extends IntentService{
                         imageCv.put(DribbleContract.Dribble.DRIBBLE_TITLE, obj.getString("title"));
                         imageCv.put(DribbleContract.Dribble.DRIBBLE_URL, obj.getString("image_url"));
                         imageCv.put(DribbleContract.Dribble.DRIBBLE_TEASER, obj.getString("image_teaser_url"));
-                        Uri uri =getContentResolver().insert(DribbleContract.Dribble.CONTENT_URI, imageCv);
+                        Uri uri = getContentResolver().insert(DribbleContract.Dribble.CONTENT_URI, imageCv);
                         Cursor cursor= getContentResolver().query(uri, null, null, null, null);
                         cursor.moveToFirst();
                         while(!cursor.isAfterLast()){

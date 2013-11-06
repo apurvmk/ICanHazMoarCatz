@@ -19,10 +19,10 @@ public class DribbleDataBase extends SQLiteOpenHelper {
 
     private static final String CREATE_DRIBBLE_TABLE = String.format(
             "CREATE TABLE %s ("
-            +" %s INTEGER PRIMARY KEY AUTOINCREMENT, "
-            +" %s TEXT NOT NULL ,"
-            +" %s TEXT NOT NULL ,"
-            +" %s TEXT NOT NULL );",
+            + "%s INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "%s TEXT NOT NULL, "
+            + "%s TEXT NOT NULL, "
+            + "%s TEXT NOT NULL);",
             DribbleContract.Dribble.TABLE_NAME,
             DribbleContract.Dribble._ID,
             DribbleContract.Dribble.DRIBBLE_TITLE,

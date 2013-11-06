@@ -5,7 +5,9 @@ import android.app.FragmentTransaction;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,15 +20,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class MainActivity extends Activity{
 
+    private final String TAG = "MobiDribbble || " + getClass().getSimpleName();
     private static String FULL_SCREEN = "full_screen";
     RelativeLayout fragment_container;
     GridView gridView;
-    int scrollState;
     ImageAdapter imgAdapter;
     boolean isShowingFullScreen=false;
 
@@ -46,10 +49,25 @@ public class MainActivity extends Activity{
             isShowingFullScreen = savedInstanceState.getBoolean(FULL_SCREEN);
         }
 
+        Cursor cursor = getContentResolver().query(DribbleContract.Dribble.CONTENT_URI, null, null, null, null);
+
+
+        /*
+        // Tests to see all the column names
+        String colNames = "";
+        for(String name : cursor.getColumnNames())
+            colNames = colNames + " | " + name;
+        Log.d(TAG, colNames);
+        */
+        if(cursor.moveToFirst()){
         imgAdapter = new ImageAdapter(
                 this,
-                getContentResolver().query(DribbleContract.Dribble.CONTENT_URI, null, null, null, null), // Put actual cursor here
+                cursor,
                 false);
+        }
+        else
+            Toast.makeText(this, "Sorry, cursor was null", Toast.LENGTH_SHORT).show();
+
         gridView.setAdapter(imgAdapter);
         /*
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

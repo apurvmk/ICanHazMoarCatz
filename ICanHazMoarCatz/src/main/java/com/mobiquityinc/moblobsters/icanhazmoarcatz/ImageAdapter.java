@@ -2,6 +2,7 @@ package com.mobiquityinc.moblobsters.icanhazmoarcatz;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 public class ImageAdapter extends CursorAdapter {
 
+    private final String TAG = "MobiDribbble || " + getClass().getCanonicalName();
     private Context context;
     private Cursor cursor;
 
@@ -54,9 +56,11 @@ public class ImageAdapter extends CursorAdapter {
 
         //Picasso.with(context).load("http://cdn.meme.li/i/pg2lr.jpg").into(imageHolder.catIV);
 
+        //Log.d(TAG, DribbleContract.Dribble.DRIBBLE_URL + " | " + cursor.getColumnIndex(DribbleContract.Dribble.DRIBBLE_URL));
+
 
         if(cursor.moveToPosition(position)){
-            Picasso.with(context).load(cursor.getColumnIndex(DribbleContract.Dribble.DRIBBLE_URL)).into(imageHolder.catIV);
+            Picasso.with(context).load(cursor.getString(cursor.getColumnIndex(DribbleContract.Dribble.DRIBBLE_URL))).into(imageHolder.catIV);
             //Picasso.with(context).load("http://cdn.meme.li/i/pg2lr.jpg").into(imageHolder.catIV);
         }
 

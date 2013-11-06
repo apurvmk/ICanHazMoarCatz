@@ -15,7 +15,7 @@ public class DribbleContract {
     public static final class Dribble implements BaseColumns{
 
         public static final String TABLE_NAME = "dribble";
-        public static final String DRIBBLE_TITLE = "_title";
+        public static final String DRIBBLE_TITLE = "title";
         public static final String DRIBBLE_URL  = "image_url";
         public static final String DRIBBLE_TEASER  = "image_teaser_url";
 
@@ -26,7 +26,9 @@ public class DribbleContract {
         public static final HashMap<String,String> mProjectionMap = new HashMap<String, String>();
         static{
             mProjectionMap.put(_ID,_ID);
-            mProjectionMap.put(DRIBBLE_TITLE,DRIBBLE_TITLE);
+            mProjectionMap.put(DRIBBLE_TITLE, DRIBBLE_TITLE);
+            mProjectionMap.put(DRIBBLE_URL, DRIBBLE_URL);
+            mProjectionMap.put(DRIBBLE_TEASER, DRIBBLE_TEASER);
 
         }
     }

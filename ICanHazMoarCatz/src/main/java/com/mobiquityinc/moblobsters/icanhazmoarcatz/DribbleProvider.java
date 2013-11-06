@@ -17,6 +17,7 @@ import java.net.URI;
  */
 public class DribbleProvider extends ContentProvider {
 
+    private final String TAG = "MobiDribbble || " + getClass().getSimpleName();
     public static final String AUTHORITY = "com.mobiquityinc.moblobsters.icanhazmoarcatz.DribbleProvider";
     private DribbleDataBase dataBase;
 
@@ -61,9 +62,9 @@ public class DribbleProvider extends ContentProvider {
 
         long id;
         SQLiteDatabase db =  dataBase.getWritableDatabase();
-        id = db.insert(DribbleContract.Dribble.TABLE_NAME,null,contentValues);
+        id = db.insert(DribbleContract.Dribble.TABLE_NAME, null, contentValues);
         getContext().getContentResolver().notifyChange(uri,null);
-        Log.i("PRA","inserted id: "+id);
+        Log.i(TAG,"inserted id: "+id);
 
         return ContentUris.withAppendedId(DribbleContract.Dribble.CONTENT_URI,id);
 
